@@ -1,3 +1,4 @@
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,61 +44,63 @@ public class Classifier {
     public void learn() {
 
 
-        int correctOutput = 0;
-        int sumError;//proces uczenia, dobranie prawidłowych wartośći wag i thety
+        //proces uczenia, dobranie prawidłowych wartośći wag i thety
         for (int i = 0; i < trainList.size(); i++) {
-            sumError = 0;
+
 
             for (Data data : trainList) {
                 int yOutput = getY(data); //y= faktyczna decyzja
                 //d - wyjście prawidłowe
-
+                int correctOutput = 0;
 
                 for (Map.Entry<String, Integer> entry : mapValues.entrySet()) {
-                    if (entry.getKey().equals(data.getType()))
-                        correctOutput = entry.getValue();
+                    if (entry.getKey().equals(data.getType())) correctOutput = entry.getValue();
                 }
 
                 int error = correctOutput - yOutput;
-                sumError += error;
+
 
                 for (int j = 0; j < data.getAttrLength(); j++) {
                     weights[j] += error * alpha * data.getAttributes()[j];
                 }
-
                 theta += error * alpha;
-
             }
-
-            if (sumError == 0)
-                break;
 
         }
     }
 
-    public void showResult(){
+
+    public void showResult() {
         int correctOutput;
         double size = testList.size();
         double predicted = 0;
 
-        for(Data data : testList){
+        for (Data data : testList) {
             correctOutput = getY(data);
 
-
-            String correctType="";//(w testowanym przypadku nazwa kwatka)
-            for(Map.Entry<String,Integer> entry : mapValues.entrySet()){
-                if(correctOutput == entry.getValue())
-                    correctType = entry.getKey();
+            String correctType = "";//(w testowanym przypadku nazwa kwatka)
+            for (Map.Entry<String, Integer> entry : mapValues.entrySet()) {
+                if (correctOutput == entry.getValue()) correctType = entry.getKey();
             }
 
-            if(data.getType().equals(correctType))
-                predicted++;
+            if (data.getType().equals(correctType)) predicted++;
 
-
-            System.out.println(data + " correct type-> " +  correctType);
+            System.out.println(data + " classified type-> " + correctType);
         }
-        System.out.println("Accuracy = " + predicted/size);
+        System.out.println("Accuracy = " + predicted / size);
     }
 
+    public void showResult(Data data) {
+        int correctOutput;
+        correctOutput = getY(data);
+
+        String correctType = "";//(w testowanym przypadku nazwa kwatka)
+
+        for (Map.Entry<String, Integer> entry : mapValues.entrySet()) {
+            if (correctOutput == entry.getValue()) correctType = entry.getKey();
+        }
+
+        System.out.println(data + " classified type-> " + correctType);
+    }
 
 }

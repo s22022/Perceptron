@@ -23,7 +23,7 @@ public class Data {
     }
 
     public int getAttrLength(){
-        return attributes.length;
+        return this.attributes.length;
     }
 
 }
