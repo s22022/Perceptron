@@ -4,8 +4,6 @@ public class Data {
 
     private double[] attributes;
     private String type;
-    private double distance;
-    public int length = attributes.length;
     public Data(String type, double[] attributes) {
         this.type = type;
         this.attributes = attributes;
@@ -24,5 +22,8 @@ public class Data {
         return getType() + Arrays.toString(getAttributes());
     }
 
+    public int getAttrLength(){
+        return attributes.length;
+    }
 
 }
